@@ -1,0 +1,6 @@
+{
+    "matches": [
+      { "id": 1, "homeTeam": { "name": "Aston Villa" }, "awayTeam": { "name": "Arsenal" }, "utcDate": "2024-09-30T17:00:00Z" },
+      { "id": 2, "homeTeam": { "name": "Barcelona" }, "awayTeam": { "name": "Real Madrid" }, "utcDate": "2024-09-30T19:00:00Z" }
+    ]
+  }
