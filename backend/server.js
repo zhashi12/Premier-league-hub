@@ -28,6 +28,8 @@ app.get('/api/matches', async (req, res) => {
         status: 'FINISHED',  
         dateFrom: '2024-08-01',  
         dateTo: '2025-09-29' //make permanent refresh solution to this 
+        //include currently occurring games (with minutes)
+        //add in red cards, goalscorers and minute they scores
       }
     });
 
