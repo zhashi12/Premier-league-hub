@@ -14,6 +14,7 @@ app.get('/api/matches', async (req, res) => {
     });
 
     const currentDate = new Date();
+    const currentDateString = new Date().toISOString().split('T')[0];
 
     const upcomingMatches = responseUpcoming.data.matches
       .filter(match => new Date(match.utcDate) > currentDate) 
@@ -27,7 +28,7 @@ app.get('/api/matches', async (req, res) => {
       params: {
         status: 'FINISHED',  
         dateFrom: '2024-08-01',  
-        dateTo: '2025-09-29' //make permanent refresh solution to this 
+        dateTo: currentDateString, //make permanent refresh solution to this 
         //include currently occurring games (with minutes)
         //add in red cards, goalscorers and minute they scores
       }
@@ -45,5 +46,5 @@ app.get('/api/matches', async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3002;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
