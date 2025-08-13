@@ -6,7 +6,7 @@ import '../styles/globals.css';
 
 export default function Home() {
   const [upcomingMatches, setUpcomingMatches] = useState([]);
-  const [pastMatches, setPastMatches] = useState([]);
+  const [recentMatches, setRecentMatches] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -14,7 +14,7 @@ export default function Home() {
       .then(response => {
         console.log('Matches fetched:', response.data);
         setUpcomingMatches(response.data.upcomingMatches);
-        setPastMatches(response.data.pastMatches);  
+        setRecentMatches(response.data.recentMatches);  
         setLoading(false);
       })
       .catch(error => console.error('Error fetching matches:', error));
@@ -29,7 +29,7 @@ export default function Home() {
           <MatchList matches={upcomingMatches} isPastGames={false} />
 
           <h2 style={{ margin: '40px 0 20px' }}>Past 10 Games</h2>
-          <MatchList matches={pastMatches} isPastGames={true} /> 
+          <MatchList matches={recentMatches} isPastGames={true} /> 
         </>
       )}
     </div>
