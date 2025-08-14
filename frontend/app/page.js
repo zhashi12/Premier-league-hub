@@ -25,11 +25,14 @@ export default function Home() {
 
       {loading ? <p>Loading matches...</p> : (
         <>
-          <h2 style={{ marginBottom: '20px' }}>Next 10 Games</h2>
-          <MatchList matches={upcomingMatches} isPastGames={false} />
-
-          <h2 style={{ margin: '40px 0 20px' }}>Past 10 Games</h2>
-          <MatchList matches={recentMatches} isPastGames={true} /> 
+        <div style= {{marginBottom: '40px'}}>
+          <h2 style={{ marginBottom: '20px' }}>Past 10 Games</h2>
+          <MatchList matches={recentMatches} isPastGames={true} />
+</div>
+<div>
+          <h2 style={{margin: '20px' }}>Next 10 Games</h2>
+          <MatchList matches={upcomingMatches} isPastGames={false} /> 
+          </div>
         </>
       )}
     </div>
