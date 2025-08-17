@@ -11,7 +11,8 @@ export default function MatchList({ matches, isPastGames }) {
           <b>{match.homeTeam.name}</b>
           {isPastGames && match.score && match.score.fullTime ? (
 
-            ` ${match.score.fullTime.home} - ${match.score.fullTime.away} `
+                  `${match.score.fullTime.home} - ${match.score.fullTime.away} `
+
           ) : (
             ' vs '
           )}
