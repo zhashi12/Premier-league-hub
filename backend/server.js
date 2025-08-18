@@ -28,7 +28,7 @@ app.get('/api/matches', async (req, res) => {
     const today = currentDate.toISOString().split('T')[0];
 
     const [fdTodayResp, fdSchedResp] = await Promise.all([
-        fd.get('/matches', { params: { competitions: 'PL', dateFrom: today, dateTo: today } }),
+        fd.get('/matches', { params: { competitions: 'PL', status: 'LIVE' } }),
         fd.get('/competitions/PL/matches', { params: { status: 'SCHEDULED' } }),
     ])
     const fdToday  = Array.isArray(fdTodayResp?.data?.matches) ? fdTodayResp.data.matches : [];
@@ -41,7 +41,6 @@ app.get('/api/matches', async (req, res) => {
       .map(normalizeFDMatch);                                          
 
     const recentMatches = fdToday
-      .filter(m => ONGOING.has(m.status))
       .sort((a, b) => new Date(b.utcDate) - new Date(a.utcDate))     
       .slice(0, 10)
       .map(normalizeFDMatch);
