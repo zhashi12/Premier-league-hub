@@ -1,6 +1,10 @@
 export default function MatchList({ matches, isPastGames }) {
-  if (!matches || matches.length === 0) {
-    return <p>No matches available</p>;
+  if (!Array.isArray(matches) || matches.length === 0) {
+    return (
+      <div className="w-full py-10 text-center">
+        <strong>{isPastGames ? 'No live matches right now.' : 'No matches available.'}</strong>
+      </div>
+    );
   }
 
   return (
