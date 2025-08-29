@@ -14,22 +14,75 @@ const fd = axios.create({
 } 
 )
 
-const TDSB = axios.create({
+const tsdb = axios.create({
   baseURL: "https://www.thesportsdb.com/api/v1/json/3",
   timeout: 8000
 })
-console.log({TDSB});
-/*
+
 function normalizeName(name = ''){
   return name.toLowerCase()
     .replace(/\b(?:fc|afc)\b/g, '')
     .replace(/\s+/g, ' ')
     .trim();
 }
+function buildBadges(matches = []){
+  const map = new Map();
+  for (const m of matches){
+    const hName = normalizeName(m?.homeTeam?.name || '');
+    const aName = normalizeName(m?.awayTeam?.name || '');
+    const hCrest = m?.homeTeam?.crest || '';
+    const aCrest = m?.awayTeam?.crest || '';
+    if (hName && hCrest){
+      map.set(hName,hCrest);
+    }
+    if (aName && aCrest){
+      map.set(aName, aCrest);
+    }
+  }
+  return map;
+}
 
-const BADGE_BY_TEAMNAME = new Map();
-let badgesLoaded = false;
-*/
+function normalizeTSDBMatches(e, crestByName){
+  const toInt = (v) => {
+    if (v == null || v === ''){
+      return null;
+    }
+    const n = Number(v);
+    return Number.isFinite(n) ? n : null;
+  };
+  const iso = e.strTimestamp ? e.strTimestamp : (e.dateEvent ? `${e.dateEvent}T${e.strTime || '00:00'}:00Z` : null);
+  
+  const home = e.strHomeTeam || '';
+  const away = e.strAwayTeam || '';
+
+  return{
+    id: `tsdb-${e.idEvent}`,
+    utcDate: iso,
+    status: 'FINISHED',
+
+    homeTeam: {
+      id: null,
+      name: home,
+      crest: crestByName.get(normalizeName(home)) || null,
+    },
+
+    awayTeam: {
+      id: null,
+      name: away,
+      crest: crestByName.get(normalizeName(away)) || null,
+    },
+
+    score: {
+      fullTime: {
+        home: toInt(e.intHomeScore),
+        away: toInt(e.intAwayScore),
+      },
+    },
+
+  };
+
+}
+
 const normalizeFDMatch = require('./normaliseFDMatch');
 
 app.get('/api/matches', async (req, res) => {
@@ -56,8 +109,20 @@ app.get('/api/matches', async (req, res) => {
       .sort((a, b) => new Date(b.utcDate) - new Date(a.utcDate))     
       .slice(0, 10)
       .map(normalizeFDMatch);
-    const pastMatches = [];
-    res.json({ upcomingMatches, recentMatches, pastMatches});
+
+    const crestByName = buildBadges(upcomingMatches, recentMatches);
+
+    const tsdbPastResponse = await tsdb.get('/eventspastleague.php', {params: {id: 4328}});
+    const tsdbPast = Array.isArray(tsdbPastResponse?.data?.events) ? tsdbPastResponse?.data?.events : [];
+
+    const pastMatches =tsdbPast
+      .map(e =>normalizeTSDBMatches(e, crestByName))
+      .sort((a,b) => new Date(b.utcDate) - new Date(a.utcDate))
+      .slice(0,10);
+
+    const payload = {upcomingMatches, recentMatches, pastMatches};
+    CACHE = {ts: Date.now(), payload};
+    res.json(payload);
 
   } catch (error) {
   console.error('[fetch error]',

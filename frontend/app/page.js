@@ -17,7 +17,7 @@ export default function Home() {
         console.log('Matches fetched:', response.data);
         setUpcomingMatches(response.data.upcomingMatches);
         setRecentMatches(response.data.recentMatches);  
-        setPastMatches(response.data.recentMatches);
+        setPastMatches(response.data.pastMatches);
         setLoading(false);
       })
       .catch(error => console.error('Error fetching matches:', error));
@@ -34,7 +34,7 @@ export default function Home() {
 </div>
 <div>
   <h2 style={{margin: '40px'}}>Past 10 results</h2>
-  <MatchList matches={{pastMatches}} is isPastGames={true}></MatchList>
+  <MatchList matches={pastMatches} isPastGames={true}></MatchList>
 </div>
 <div>
           <h2 style={{margin: ' 40px' }}>Next 10 Games</h2>
