@@ -23,6 +23,7 @@ function normalizeName(name = ''){
   return name.toLowerCase()
     .replace(/\b(?:fc|afc)\b/g, '')
     .replace(/\s+/g, ' ')
+    .replace(/\b(and)\b/g,'&')
     .trim();
 }
 function buildBadges(matches = []){
@@ -83,6 +84,14 @@ function normalizeTSDBMatches(e, crestByName){
 
 }
 
+function seasonTag(d = new Date()) {
+  const y = d.getUTCFullYear();
+  const m = d.getUTCMonth() + 1;  
+  const start = (m < 7) ? (y - 1) : y;
+  return `${start}-${start + 1}`;    
+}
+
+
 const normalizeFDMatch = require('./normaliseFDMatch');
 
 app.get('/api/matches', async (req, res) => {
@@ -112,13 +121,27 @@ app.get('/api/matches', async (req, res) => {
 
     const crestByName = buildBadges(upcomingMatches, recentMatches);
 
-    const tsdbPastResponse = await tsdb.get('/eventspastleague.php', {params: {id: 4328}});
-    const tsdbPast = Array.isArray(tsdbPastResponse?.data?.events) ? tsdbPastResponse?.data?.events : [];
 
-    const pastMatches =tsdbPast
-      .map(e =>normalizeTSDBMatches(e, crestByName))
-      .sort((a,b) => new Date(b.utcDate) - new Date(a.utcDate))
-      .slice(0,10);
+    const season = seasonTag(currentDate);
+    const tsdbSeasonResp = await tsdb.get('/eventsseason.php', { params: { id: 4328, s: season } });
+    const seasonEvents = Array.isArray(tsdbSeasonResp?.data?.events) ? tsdbSeasonResp.data.events : [];
+
+
+    const plEvents = seasonEvents.filter(e =>
+      e?.idLeague === '4328' || /premier league/i.test(e?.strLeague || '')
+    );
+    const finished = plEvents.filter(e =>
+      e?.intHomeScore !== '' && e?.intHomeScore != null &&
+      e?.intAwayScore !== '' && e?.intAwayScore != null
+    );
+    console.log(finished.slice(0,3));
+
+    const pastMatches = finished
+      .map(e => normalizeTSDBMatches(e, crestByName))
+      .filter(m => m.utcDate && new Date(m.utcDate) <= currentDate)
+      .sort((a, b) => new Date(b.utcDate) - new Date(a.utcDate))
+      .slice(0, 10);
+
 
     const payload = {upcomingMatches, recentMatches, pastMatches};
     CACHE = {ts: Date.now(), payload};
