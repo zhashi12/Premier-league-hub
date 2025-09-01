@@ -1,4 +1,5 @@
 "use client";
+import React, {useState} from "react";
 export default function MatchList({ matches, variant }) {
   const v = (variant || '').toLowerCase();
   if (!Array.isArray(matches) || matches.length === 0) {
@@ -10,7 +11,7 @@ export default function MatchList({ matches, variant }) {
     );
   }
 
-
+const [toggle, setToggle] = useState(false);
 
   return (
     <ul>
@@ -28,29 +29,33 @@ export default function MatchList({ matches, variant }) {
 
 
         return(
-            <li key={match.id ?? `m-${idx}`}>
-              <img src = {home.crest} alt = "Home crest" width = "50" height = "20"></img>
-              <b>{home.name || "home"}</b>
-              {variant === "live" ? (
-                <strong>
-                {hLive} - {aLive}
-                <span style={{ marginLeft: 8 }}>{minute != null ? `${minute}’` : 'LIVE'}</span>
-                </strong>
-              ) : variant === "finished" ? (
-                <strong>
-                  {hFin} - {aFin}
-                  <span style={{ marginLeft: 8, fontSize: 12, padding: '2px 8px', borderRadius: 9999, background: '#f3f4f6', border: '1px solid #e5e7eb' }}>
-                    FT
-                  </span>
-                </strong>
-              ) : (
-                // scheduled
-                <span>{match?.utcDate ? new Date(match.utcDate).toLocaleString() : 'TBD'}</span>
-              )}
-              <b>&nbsp;{away.name || "away"}</b>
-              <img src = {match.awayTeam.crest} alt = "Away crest" width = "50" height = "20"></img>
+            <li key={match.id ?? `m-${idx}`} >
+              <button 
+              className="rowButton"
+              onClick={() => {console.log("hi")}}
+              >
+                <img src = {home.crest} alt = "Home crest" width = "50" height = "20"></img>
+                <b>{home.name || "home"}</b>
+                {variant === "live" ? (
+                  <strong>
+                  {hLive} - {aLive}
+                  <span style={{ marginLeft: 8 }}>{minute != null ? `${minute}’` : 'LIVE'}</span>
+                  </strong>
+                ) : variant === "finished" ? (
+                  <strong>
+                    {hFin} - {aFin}
+                    <span style={{ marginLeft: 8, fontSize: 12, padding: '2px 8px', borderRadius: 9999, background: '#09fd4eff', border: '1px solid #e5e7eb' }}>
+                      FT
+                    </span>
+                  </strong>
+                ) : (
+                  // scheduled
+                  <span>{match?.utcDate ? new Date(match.utcDate).toLocaleString() : 'TBD'}</span>
+                )}
+                <b>&nbsp;{away.name || "away"}</b>
+                <img src = {match.awayTeam.crest} alt = "Away crest" width = "50" height = "20"></img>
               
-        
+              </button>
             </li>
           )})}
     </ul>

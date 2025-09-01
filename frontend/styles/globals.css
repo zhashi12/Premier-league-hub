@@ -39,14 +39,12 @@ ul {
 li {
   background-color: #fff;
   margin-bottom: 15px;
-  padding: 15px;
   border-radius: 8px; 
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);  
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: block;         
+  padding: 0;            
   font-size: 1.1rem;
-  color: #34495e; 
+  color: #34495e;
 }
 
 
@@ -58,6 +56,45 @@ li b {
 li:hover {
   background-color: #eaf2f8;
 }
+
+.rowButton {
+  all: unset;                /* wipe browser defaults */
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 15px;             /* moved here from li */
+  cursor: pointer;
+  border-radius: 8px;        /* matches li’s corners */
+}
+
+.rowButton:hover {
+  background-color: #eaf2f8; /* same hover as old li */
+}
+
+.rowButton:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+.rowButton strong {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+
+.rowButton { flex-wrap: nowrap; }
+
+.rowButton b {
+  flex: 1 1 0;  
+  min-width: 0;  
+}
+
+
 
 
 .match-date {

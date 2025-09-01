@@ -17,7 +17,6 @@ const fd = axios.create({
   timeout: 8000
 } 
 )
-console.log(process.env.FOOTBALL_DATA_TOKEN);
 const tsdb = axios.create({
   baseURL: "https://www.thesportsdb.com/api/v1/json/3",
   timeout: 8000
@@ -159,7 +158,6 @@ app.get('/api/matches', async (req, res) => {
       .sort((a, b) => new Date(b.utcDate) - new Date(a.utcDate))
       .slice(0, 10);
 
-    console.log(pastMatches);
     const payload = {upcomingMatches, recentMatches, pastMatches};
     CACHE = {ts: Date.now(), payload};
     res.json(payload);

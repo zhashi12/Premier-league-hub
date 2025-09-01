@@ -13,6 +13,7 @@ export default function Home() {
 
   const base = process.env.NEXT_PUBLIC_API_BASE;
 
+
   useEffect(() => {
     axios.get(`${base}api/matches`) 
       .then(response => {
@@ -34,7 +35,7 @@ export default function Home() {
           <h2 style={{ marginBottom: '20px' }}>Live Games</h2>
           <MatchList matches={recentMatches} variant={"live"} />
 </div>
-<div>
+<div >
   <h2 style={{margin: '40px'}}>Past 10 results</h2>
   <MatchList matches={pastMatches} variant={"finished"}></MatchList>
 </div>
