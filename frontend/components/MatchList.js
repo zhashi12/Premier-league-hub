@@ -32,7 +32,7 @@ const [toggle, setToggle] = useState(false);
             <li key={match.id ?? `m-${idx}`} >
               <button 
               className="rowButton"
-              onClick={() => {console.log("hi")}}
+              onClick={() => setToggle(!toggle)}
               >
                 <img src = {home.crest} alt = "Home crest" width = "50" height = "20"></img>
                 <b>{home.name || "home"}</b>
