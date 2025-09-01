@@ -15,7 +15,6 @@ export default function MatchList({ matches, variant }) {
   return (
     <ul>
       {matches.map((match, idx) => {
-        const id = match?.id ?? `m-${idx}`;
         const home   = match?.homeTeam ?? {};
         const away   = match?.awayTeam ?? {};
         const ft     = match?.score?.fullTime ?? null;                       // {home, away} | null
