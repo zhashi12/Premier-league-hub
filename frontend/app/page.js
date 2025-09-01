@@ -12,7 +12,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get('http://localhost:3001/api/matches') 
+    axios.get('premier-league-hub-backend.vercel.app/api/matches') 
       .then(response => {
         console.log('Matches fetched:', response.data);
         setUpcomingMatches(response.data.upcomingMatches);
