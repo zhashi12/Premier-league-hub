@@ -7,13 +7,17 @@ const app = express();
 app.use(cors());
 let CACHE = { ts: 0, payload: null };
 const TTL_MS = 60_000; // 60s
+
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '.env') });
+
 const fd = axios.create({
   baseURL: 'https://api.football-data.org/v4',
   headers: {'X-Auth-Token': process.env.FOOTBALL_DATA_TOKEN},
   timeout: 8000
 } 
 )
-
+console.log(process.env.FOOTBALL_DATA_TOKEN);
 const tsdb = axios.create({
   baseURL: "https://www.thesportsdb.com/api/v1/json/3",
   timeout: 8000
