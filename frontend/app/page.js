@@ -30,15 +30,15 @@ export default function Home() {
         <>
         <div style= {{marginBottom: '40px'}}>
           <h2 style={{ marginBottom: '20px' }}>Live Games</h2>
-          <MatchList matches={recentMatches} isPastGames={true} />
+          <MatchList matches={recentMatches} variant={"live"} />
 </div>
 <div>
   <h2 style={{margin: '40px'}}>Past 10 results</h2>
-  <MatchList matches={pastMatches} isPastGames={true}></MatchList>
+  <MatchList matches={pastMatches} variant={"finished"}></MatchList>
 </div>
 <div>
           <h2 style={{margin: ' 40px' }}>Next 10 Games</h2>
-          <MatchList matches={upcomingMatches} isPastGames={false} /> 
+          <MatchList matches={upcomingMatches} variant={"scheduled"} /> 
           </div>
         </>
       )}

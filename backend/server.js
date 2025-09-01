@@ -51,6 +51,7 @@ function normalizeTSDBMatches(e, crestByName){
     const n = Number(v);
     return Number.isFinite(n) ? n : null;
   };
+
   const iso = e.strTimestamp ? e.strTimestamp : (e.dateEvent ? `${e.dateEvent}T${e.strTime || '00:00'}:00Z` : null);
   
   const home = e.strHomeTeam || '';
@@ -80,6 +81,7 @@ function normalizeTSDBMatches(e, crestByName){
       },
     },
 
+
   };
 
 }
@@ -96,30 +98,40 @@ const normalizeFDMatch = require('./normaliseFDMatch');
 
 app.get('/api/matches', async (req, res) => {
   try {
-    if (Date.now() - CACHE.ts < TTL_MS && CACHE.payload) {
+    const ignoreCache = req.query.fresh === '1';
+    if (!ignoreCache && Date.now() - CACHE.ts < TTL_MS && CACHE.payload) {
       return res.json(CACHE.payload);
     }
+
     const currentDate = new Date();
-    const [fdTodayResp, fdSchedResp] = await Promise.all([
-        fd.get('/matches', { params: { competitions: 'PL'} }),
+    const [fdInPlay, fdPaused, fdLive, fdSchedResp] = await Promise.all([
+        fd.get('/matches', { params:{competitions: 'PL',  status: 'IN_PLAY'} }),
+        fd.get('/matches', { params: {competitions: 'PL', status: 'PAUSED'}}),
+        fd.get('/matches', { params: {competitions: 'PL', status: 'LIVE'}}),
         fd.get('/competitions/PL/matches', { params: { status: 'SCHEDULED' } }),
     ])
-    const fdToday  = Array.isArray(fdTodayResp?.data?.matches) ? fdTodayResp.data.matches : [];
+    const inPlay = Array.isArray(fdInPlay?.data?.matches) ? fdInPlay.data.matches : [];
+    const paused = Array.isArray(fdPaused?.data?.matches) ? fdPaused.data.matches : [];
+    const live   = Array.isArray(fdLive?.data?.matches)   ? fdLive.data.matches   : [];
+
+
+    const fdToday = [...live, ...inPlay, ...paused];
+
     const fdSched = Array.isArray(fdSchedResp?.data?.matches) ? fdSchedResp.data.matches : [];
 
-    const upcomingMatches = fdSched
+    let upcomingMatches = fdSched
       .filter(m => new Date(m.utcDate) > currentDate)                 
       .sort((a, b) => new Date(a.utcDate) - new Date(b.utcDate))      
-      .slice(0, 10)
+      .slice(0, 50)
       .map(normalizeFDMatch);                                          
 
     const recentMatches = fdToday
-      .filter(m => m.status === 'IN_PLAY' || m.status === 'PAUSED')
-      .sort((a, b) => new Date(b.utcDate) - new Date(a.utcDate))     
-      .slice(0, 10)
-      .map(normalizeFDMatch);
+    .sort((a,b) => new Date(b.utcDate) - new Date(a.utcDate))
+    .slice(0,10)
+    .map(normalizeFDMatch);
 
-    const crestByName = buildBadges(upcomingMatches, recentMatches);
+    const crestByName = buildBadges(upcomingMatches);
+    upcomingMatches = upcomingMatches.slice(0,10);
 
 
     const season = seasonTag(currentDate);
@@ -134,7 +146,8 @@ app.get('/api/matches', async (req, res) => {
       e?.intHomeScore !== '' && e?.intHomeScore != null &&
       e?.intAwayScore !== '' && e?.intAwayScore != null
     );
-    console.log(finished.slice(0,3));
+    //console.log(finished.slice(0,3));
+
 
     const pastMatches = finished
       .map(e => normalizeTSDBMatches(e, crestByName))
@@ -142,7 +155,7 @@ app.get('/api/matches', async (req, res) => {
       .sort((a, b) => new Date(b.utcDate) - new Date(a.utcDate))
       .slice(0, 10);
 
-
+    console.log(pastMatches);
     const payload = {upcomingMatches, recentMatches, pastMatches};
     CACHE = {ts: Date.now(), payload};
     res.json(payload);
