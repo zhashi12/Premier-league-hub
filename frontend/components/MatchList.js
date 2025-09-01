@@ -1,6 +1,7 @@
 "use client";
 import React, {useState} from "react";
 export default function MatchList({ matches, variant }) {
+  const [toggle, setToggle] = useState(false);
   const v = (variant || '').toLowerCase();
   if (!Array.isArray(matches) || matches.length === 0) {
     const message = v ==="live" ? 'No live matches right now.' : v === "finished" ? 'No matches available.': "No upcoming matches";
@@ -11,7 +12,7 @@ export default function MatchList({ matches, variant }) {
     );
   }
 
-const [toggle, setToggle] = useState(false);
+
 
   return (
     <ul>
