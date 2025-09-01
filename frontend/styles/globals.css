@@ -38,8 +38,8 @@ ul {
 
 li {
   background-color: #fff;
-  margin-bottom: 15px;
-  border-radius: 8px; 
+  margin-bottom: 18px;
+  border-radius: 1000px; 
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   display: block;         
   padding: 0;            
@@ -58,20 +58,20 @@ li:hover {
 }
 
 .rowButton {
-  all: unset;                /* wipe browser defaults */
+  all: unset;                
   box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
   width: 100%;
-  padding: 15px;             /* moved here from li */
+  padding: 15px;             
   cursor: pointer;
-  border-radius: 8px;        /* matches li’s corners */
+  border-radius: 8px;        
 }
 
 .rowButton:hover {
-  background-color: #eaf2f8; /* same hover as old li */
+  background-color: #eaf2f8;
 }
 
 .rowButton:focus-visible {
