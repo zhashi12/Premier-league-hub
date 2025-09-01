@@ -9,7 +9,7 @@ let CACHE = { ts: 0, payload: null };
 const TTL_MS = 60_000; // 60s
 const fd = axios.create({
   baseURL: 'https://api.football-data.org/v4',
-  headers: {'X-Auth-Token': '7d252203991e4fa48ea51dd3231ca293'},
+  headers: {'X-Auth-Token': process.env.FOOTBALL_DATA_TOKEN},
   timeout: 8000
 } 
 )

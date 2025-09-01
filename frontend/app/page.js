@@ -11,8 +11,10 @@ export default function Home() {
   const [pastMatches, setPastMatches] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const base = process.env.NEXT_PUBLIC_API_BASE;
+
   useEffect(() => {
-    axios.get('https://premier-league-hub-backend.vercel.app/api/matches') 
+    axios.get(`${base}api/matches`) 
       .then(response => {
         console.log('Matches fetched:', response.data);
         setUpcomingMatches(response.data.upcomingMatches);
