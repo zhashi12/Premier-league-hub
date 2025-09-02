@@ -18,7 +18,7 @@ const fd = axios.create({
 } 
 )
 const tsdb = axios.create({
-  baseURL: "https://www.thesportsdb.com/api/v1/json/123",
+  baseURL: "https://www.thesportsdb.com/api/v1/json/",
   timeout: 8000
 })
 
@@ -138,7 +138,7 @@ app.get('/api/matches', async (req, res) => {
 
 
     const season = seasonTag(currentDate);
-    const tsdbSeasonResp = await tsdb.get('/eventsseason.php', { params: { id: 4328, s: season } });
+    const tsdbSeasonResp = await tsdb.get('3/eventsseason.php', { params: { id: 4328, s: season } });
     const seasonEvents = Array.isArray(tsdbSeasonResp?.data?.events) ? tsdbSeasonResp.data.events : [];
 
 
@@ -187,9 +187,9 @@ app.get('/api/matches/:id/details', async (req,res) =>{
       // TheSportsDB by event id
       const rawId = id.replace(/^tsdb-/, '');
       const [r,match,mtimeline] = await Promise.all ([
-        tsdb.get('/lookupevent.php', { params: { id: rawId } }),
-        tsdb.get('/lookupeventstats.php',{params: {id: rawId}}),
-        tsdb.get('/lookuptimeline.php', {params: {id: rawId}})
+        tsdb.get('123/lookupevent.php', { params: { id: rawId } }),
+        tsdb.get('123/lookupeventstats.php',{params: {id: rawId}}),
+        tsdb.get('123/lookuptimeline.php', {params: {id: rawId}})
       ])
       const event = Array.isArray(r?.data?.events) ? r.data.events[0] : null;
       //console.log(match);
