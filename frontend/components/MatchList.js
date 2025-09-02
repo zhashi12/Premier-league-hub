@@ -81,7 +81,7 @@ export default function MatchList({ matches, variant }) {
                 ) : variant === "finished" ? (
                   <strong>
                     {hFin} - {aFin}
-                    <span style={{ marginLeft: 8, fontSize: 12, padding: '2px 8px', borderRadius: 9999, background: '#09fd4eff', border: '1px solid #e5e7eb' }}>
+                    <span className="fullTime">
                       FT
                     </span>
                   </strong>
@@ -111,7 +111,7 @@ export default function MatchList({ matches, variant }) {
                             <div
                               key={index}
                               className={`flex ${
-                                ev.strHome === "Yes" ? "justify-start ml-[20px]" : "justify-end mr-[20px]"
+                                ev.strHome === "Yes" ? "justify-start ml-[50px]" : "justify-end mr-[50px]"
                               }`}
                             >
                               <div className="matchTimeline">

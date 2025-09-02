@@ -108,11 +108,12 @@ li:hover {
 }
 
 .shotUI{
-  margin-botton:10px;
+  margin-botton:15px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   position: relative;
+
 }
 
 .center{
@@ -132,4 +133,14 @@ li:hover {
 
 .detailRow{
   margin-left: 50px;
+}
+
+.fullTime{
+  display: inline-flex;
+  margin-left: 8; 
+  font-size: 12px; 
+  padding: 2px 8px; 
+  border-radius: 9999px; 
+  background-color: #09fd4eff; 
+  border: 1px solid #e5e7eb; 
 }
