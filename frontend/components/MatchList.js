@@ -100,10 +100,14 @@ export default function MatchList({ matches, variant }) {
                 {!loadingId && details[id] && !details[id].__error && (
                   <>
                     <div className="detailRow">
-                      <span>Decisive Early Moments</span>
                       <div className="flex flex-col gap-1">
                         {details[id].keyevents && details[id].keyevents.length > 0 ? (
-                          details[id].keyevents.map((ev, index) => (
+                          <>
+                          <span className="inline-block bg-gradient-to-r from-purple-500 to-pink-500 text-white text-sm font-semibold px-3 py-1 rounded-full shadow">
+                            ⚽ Decisive Early Moments
+                          </span>
+
+                          {details[id].keyevents.map((ev, index) => (
                             <div
                               key={index}
                               className={`flex ${
@@ -116,9 +120,10 @@ export default function MatchList({ matches, variant }) {
                                 {ev.strPlayer} {ev.intTime}’
                               </div>
                             </div>
-                          ))
+                            ))}
+                            </>
                         ) : (
-                          <span>TBD</span>
+                          <span></span>
                         )}
                       </div>
                     </div>
