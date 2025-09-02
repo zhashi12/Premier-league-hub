@@ -11,8 +11,8 @@ export default function Home() {
   const [pastMatches, setPastMatches] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  //const base = process.env.NEXT_PUBLIC_API_BASE;
-  const base ="http://localhost:3001/"
+  const base = process.env.NEXT_PUBLIC_API_BASE;
+  //const base ="http://localhost:3001/"
 
 
   useEffect(() => {
