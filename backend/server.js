@@ -180,7 +180,7 @@ app.get('/api/matches', async (req, res) => {
 
 app.get('/api/matches/:id/details', async (req,res) =>{
   const { id } =req.params;
-  //console.log({id});
+  console.log({id});
   try{
     let payload=null;
     if (/^tsdb-/.test(id)) {
@@ -204,6 +204,7 @@ app.get('/api/matches/:id/details', async (req,res) =>{
         for (let i = 0; i<5; i++){
           if(matchtimeline[i].strTimeline === "Goal" || matchtimeline[i].strTimeline === "card"){
             filteredtimeline.push(matchtimeline[i]);
+            filteredtimeline[filteredtimeline.length - 1].strTimelineDetail = filteredtimeline[filteredtimeline.length - 1].strTimelineDetail.replace("Normal Goal", "Open Play");
           }
         }
       }

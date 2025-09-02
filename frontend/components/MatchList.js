@@ -114,12 +114,13 @@ export default function MatchList({ matches, variant }) {
                                 ev.strHome === "Yes" ? "justify-start" : "justify-end"
                               }`}
                             >
-                              <div className="bg-gray-100 px-2 py-1 rounded text-sm">
+                              <div className="matchTimeline">
                                 <strong>{ev.strTimeline}</strong>
-                                {ev.strTimelineDetail && ` (${ev.strTimelineDetail})`} –{" "}
+                                {` (${ev.strTimelineDetail})`} –{" "}
                                 {ev.strPlayer} {ev.intTime}’
                               </div>
                             </div>
+                            
                             ))}
                             </>
                         ) : (
@@ -129,6 +130,7 @@ export default function MatchList({ matches, variant }) {
                     </div>
 
                     <div className="detailRow">
+                      <span></span>
                       <span>Venue:</span>
                       <strong>{details[id].venue ?? "TBD"}</strong>
                     </div>
