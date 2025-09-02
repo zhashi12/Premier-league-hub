@@ -99,7 +99,7 @@ export default function MatchList({ matches, variant }) {
                 {!loadingId && details[id]?.__error && <div>Failed to load details.</div>}
                 {!loadingId && details[id] && !details[id].__error && (
                   <>
-                    <div className="detailRow">
+                    <div className="detail">
                       <div className="flex flex-col gap-1">
                         {details[id].keyevents && details[id].keyevents.length > 0 ? (
                           <>
@@ -111,7 +111,7 @@ export default function MatchList({ matches, variant }) {
                             <div
                               key={index}
                               className={`flex ${
-                                ev.strHome === "Yes" ? "justify-start" : "justify-end"
+                                ev.strHome === "Yes" ? "justify-start ml-[20px]" : "justify-end mr-[20px]"
                               }`}
                             >
                               <div className="matchTimeline">
@@ -127,6 +127,17 @@ export default function MatchList({ matches, variant }) {
                           <span></span>
                         )}
                       </div>
+                    </div>
+                    <div className = "shotUI">
+                      <div class = "left"> {details[id].hTotalShots}</div>
+                      <div class = "center">Total Shots</div>
+                      <div class = "right">{details[id].aTotalShots}</div>
+
+                    </div>
+                    <div className="shotUI">
+                      <div class = "left"> {details[id].hShotsOnTarget}</div>
+                      <div class = "center">Shots on Target</div>
+                      <div class = "right">{details[id].aShotsOnTarget}</div>
                     </div>
 
                     <div className="detailRow">

@@ -106,3 +106,30 @@ li:hover {
   margin-bottom:15px;
 
 }
+
+.shotUI{
+  margin-botton:10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.center{
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+
+}
+
+.left{
+  margin-left: 50px;
+}
+
+.right{
+  margin-right: 50px;
+}
+
+.detailRow{
+  margin-left: 50px;
+}
