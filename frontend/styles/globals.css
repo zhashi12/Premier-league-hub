@@ -39,7 +39,7 @@ ul {
 li {
   background-color: #fff;
   margin-bottom: 18px;
-  border-radius: 1000px; 
+  border-radius: 80px; 
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   display: block;         
   padding: 0;            
@@ -67,7 +67,7 @@ li:hover {
   width: 100%;
   padding: 15px;             
   cursor: pointer;
-  border-radius: 8px;        
+  border-radius: 1px;        
 }
 
 .rowButton:hover {

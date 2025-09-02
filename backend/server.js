@@ -18,7 +18,7 @@ const fd = axios.create({
 } 
 )
 const tsdb = axios.create({
-  baseURL: "https://www.thesportsdb.com/api/v1/json/3",
+  baseURL: "https://www.thesportsdb.com/api/v1/json/123",
   timeout: 8000
 })
 
@@ -175,6 +175,78 @@ app.get('/api/matches', async (req, res) => {
   res.status(500).json({ error: 'Failed to fetch matches' });
 }
 });
+
+
+
+app.get('/api/matches/:id/details', async (req,res) =>{
+  const { id } =req.params;
+  //console.log({id});
+  try{
+    let payload=null;
+    if (/^tsdb-/.test(id)) {
+      // TheSportsDB by event id
+      const rawId = id.replace(/^tsdb-/, '');
+      const [r,match,mtimeline] = await Promise.all ([
+        tsdb.get('/lookupevent.php', { params: { id: rawId } }),
+        tsdb.get('/lookupeventstats.php',{params: {id: rawId}}),
+        tsdb.get('/lookuptimeline.php', {params: {id: rawId}})
+      ])
+      const event = Array.isArray(r?.data?.events) ? r.data.events[0] : null;
+      //console.log(match);
+      const matchevents = Array.isArray(match?.data?.eventstats) ? match.data.eventstats : null;
+      //console.log(event);
+      const matchtimeline = Array.isArray(mtimeline?.data?.timeline) ? mtimeline.data.timeline: null;
+      if (!event) return res.status(404).json({ error: 'TSDB event not found' });
+      if (!matchevents) return res.status(404).json({ error: 'TSDB event not found' });
+      console.log(matchtimeline);
+      const filteredtimeline = [];
+      if(matchtimeline != null){
+        for (let i = 0; i<5; i++){
+          if(matchtimeline[i].strTimeline === "Goal" || matchtimeline[i].strTimeline === "card"){
+            filteredtimeline.push(matchtimeline[i]);
+          }
+        }
+      }
+
+      payload = {
+        id,
+        venue: event.strVenue ?? null,
+        highlights: event.strVideo,
+        attendance: event.intAttendance ?? null,
+        hTotalShots: matchevents[2].intHome ?? null,
+        aTotalShots: matchevents[2].intAway ?? null,
+        hShotsOnTarget: matchevents[0].intHome ?? null,
+        aShotsOnTarget: matchevents[0].intAway ?? null,
+        keyevents: filteredtimeline
+
+      };
+
+
+
+
+
+      return res.json(payload);
+    }
+
+
+
+  }
+  catch (err){
+    console.error('[details error]', {
+      message: err?.message,
+      status: err?.response?.status,
+      data: err?.response?.data,
+      url: err?.config?.url,
+      params: err?.config?.params,
+      stack: err?.stack,
+    });
+
+  }
+
+}
+
+
+)
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
