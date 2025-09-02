@@ -7,19 +7,7 @@ export default function MatchList({ matches, variant }) {
   const base = process.env.NEXT_PUBLIC_API_BASE;
   //const base ="http://localhost:3001/"
 
-  const v = (variant || '').toLowerCase();
-  if (!Array.isArray(matches) || matches.length === 0) {
-    const message = v ==="live" ? 'No live matches right now.' : v === "finished" ? 'No matches available.': "No upcoming matches";
-    return (
-      <div className="w-full py-10 text-center">  
-        <strong>{message}</strong>
-      </div>
-    );
-  }
-
-
-
-  useEffect(() => {
+    useEffect(() => {
     if (!openId || details[openId]) return;
 
     const ctrl = new AbortController();
@@ -44,6 +32,19 @@ export default function MatchList({ matches, variant }) {
 
     return () => ctrl.abort();
   }, [openId, details, base]);
+
+  const v = (variant || '').toLowerCase();
+  if (!Array.isArray(matches) || matches.length === 0) {
+    const message = v ==="live" ? 'No live matches right now.' : v === "finished" ? 'No matches available.': "No upcoming matches";
+    return (
+      <div className="w-full py-10 text-center">  
+        <strong>{message}</strong>
+      </div>
+    );
+  }
+
+
+
 
 
 
