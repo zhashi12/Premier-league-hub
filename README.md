@@ -27,7 +27,7 @@ Features:
 How to run Locally:
 
 Open a terminal and type the following: 
-- git clone https://github.com/your-username/premier-league-hub.git
+- git clone https://github.com/zhashi12/Premier-league-hub.git
 - cd premier-league-hub
 - npm install
 - cd backend
