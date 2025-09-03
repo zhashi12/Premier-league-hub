@@ -129,15 +129,15 @@ export default function MatchList({ matches, variant }) {
                       </div>
                     </div>
                     <div className = "shotUI">
-                      <div class = "left"> {details[id].hTotalShots}</div>
-                      <div class = "center">Total Shots</div>
-                      <div class = "right">{details[id].aTotalShots}</div>
+                      <div className = "left"> {details[id].hTotalShots}</div>
+                      <div className = "center">Total Shots</div>
+                      <div className = "right">{details[id].aTotalShots}</div>
 
                     </div>
                     <div className="shotUI">
-                      <div class = "left"> {details[id].hShotsOnTarget}</div>
-                      <div class = "center">Shots on Target</div>
-                      <div class = "right">{details[id].aShotsOnTarget}</div>
+                      <div className = "left"> {details[id].hShotsOnTarget}</div>
+                      <div className = "center">Shots on Target</div>
+                      <div className = "right">{details[id].aShotsOnTarget}</div>
                     </div>
 
                     <div className="detailRow">
