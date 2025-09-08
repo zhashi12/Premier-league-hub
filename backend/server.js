@@ -22,6 +22,8 @@ const tsdb = axios.create({
   timeout: 8000
 })
 
+
+
 function normalizeName(name = ''){
   return name.toLowerCase()
     .replace(/\b(?:fc|afc)\b/g, '')
@@ -107,16 +109,20 @@ app.get('/api/matches', async (req, res) => {
     }
 
     const currentDate = new Date();
-    const [fdInPlay, fdPaused, fdLive, fdSchedResp] = await Promise.all([
+    const [fdInPlay, fdPaused, fdLive, fdStandings, fdSchedResp] = await Promise.all([
         fd.get('/matches', { params:{competitions: 'PL',  status: 'IN_PLAY'} }),
         fd.get('/matches', { params: {competitions: 'PL', status: 'PAUSED'}}),
         fd.get('/matches', { params: {competitions: 'PL', status: 'LIVE'}}),
+        fd.get('/competitions/PL/standings'),
         fd.get('/competitions/PL/matches', { params: { status: 'SCHEDULED' } }),
     ])
     const inPlay = Array.isArray(fdInPlay?.data?.matches) ? fdInPlay.data.matches : [];
     const paused = Array.isArray(fdPaused?.data?.matches) ? fdPaused.data.matches : [];
     const live   = Array.isArray(fdLive?.data?.matches)   ? fdLive.data.matches   : [];
 
+
+    const table = fdStandings?.data.standings[0]?.table ? fdStandings.data.standings[0]?.table : [];
+    console.log(table);
 
     const fdToday = [...live, ...inPlay, ...paused];
 
@@ -135,6 +141,8 @@ app.get('/api/matches', async (req, res) => {
 
     const crestByName = buildBadges(upcomingMatches);
     upcomingMatches = upcomingMatches.slice(0,10);
+
+
 
 
     const season = seasonTag(currentDate);
@@ -158,7 +166,8 @@ app.get('/api/matches', async (req, res) => {
       .sort((a, b) => new Date(b.utcDate) - new Date(a.utcDate))
       .slice(0, 10);
 
-    const payload = {upcomingMatches, recentMatches, pastMatches};
+
+    const payload = {upcomingMatches, recentMatches, pastMatches, table};
     CACHE = {ts: Date.now(), payload};
     res.json(payload);
 

@@ -4,8 +4,10 @@ export default function MatchList({ matches, variant }) {
   const [openId, setOpenId] = useState(null);
   const [details, setDetails] = useState({}); 
   const [loadingId, setLoadingId] = useState(null);
-  const base = process.env.NEXT_PUBLIC_API_BASE;
-  //const base ="http://localhost:3001/"
+  //const base = process.env.NEXT_PUBLIC_API_BASE;
+  const base ="http://localhost:3001/"
+
+
 
     useEffect(() => {
     if (!openId || details[openId]) return;
@@ -34,8 +36,8 @@ export default function MatchList({ matches, variant }) {
   }, [openId, details, base]);
 
   const v = (variant || '').toLowerCase();
-  if (!Array.isArray(matches) || matches.length === 0) {
-    const message = v ==="live" ? 'No live matches right now.' : v === "finished" ? 'No matches available.': "No upcoming matches";
+  if ( !Array.isArray(matches) || matches.length === 0) {
+    const message = v ==="live" ? 'No live matches right now.' : v === "finished" ? 'No matches available.' : v === "scheduled" ? "No upcoming matches" : "Table is unavailable";
     return (
       <div className="w-full py-10 text-center">  
         <strong>{message}</strong>
@@ -52,6 +54,42 @@ export default function MatchList({ matches, variant }) {
   return (
     <ul>
       {matches.map((match, idx) => {
+        if (variant === "table") {
+          if (idx !== 0) return null;
+          return (
+            
+            <div className="standings">
+              {/* Header (once) */}
+              <div className="tableHeader gridRow">
+                <span className="col-pos">Pos</span>
+                <span className="col-team">Team</span>
+                <span className="col-played">P</span>
+                <span className="col-gd">GD</span>
+                <span className="col-pts">Pts</span>
+              </div>
+
+              {/* Rows */}
+              <ul className="tableList">
+                {matches.map((row, idx) => {
+                  const team = row?.team ?? {};
+                  const id   = team?.id ?? `t-${idx}`;
+                  return (
+                    <li key={id} className="tableRow gridRow">
+                      <span className="pos">{row.position}</span>
+                      <span className="team">
+
+                        {team?.name ?? "Unknown"}
+                      </span>
+                      <span className="played">{row?.playedGames ?? 0}</span>
+                      <span className="gd">{row?.goalDifference ?? 0}</span>
+                      <span className="points">{row?.points ?? 0}</span>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          );
+        }
         const id = match.id ?? `m-${idx}`;
         const home   = match?.homeTeam ?? {};
         const away   = match?.awayTeam ?? {};
@@ -90,9 +128,15 @@ export default function MatchList({ matches, variant }) {
                   <span>{match?.utcDate ? new Date(match.utcDate).toLocaleString() : 'TBD'}</span>
                 )}
                 <b>&nbsp;{away.name || "away"}</b>
-                <img src = {match.awayTeam.crest} alt = "Away crest" width = "50" height = "20"></img>
+                <img src = {match?.awayTeam?.crest } alt = "Away crest" width = "50" height = "20"></img>
               
               </button>
+
+          
+
+
+
+
               {variant === "finished" && openId === id && (
               <div className="matchDetails">
                 {loadingId === id && <div>Loading…</div>}

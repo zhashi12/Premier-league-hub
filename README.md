@@ -51,6 +51,7 @@ Ongoing development:
 
 Planned features include adding a league table, and email or phone notifications of users' favourite team's ongoing games.
 
+
 Author:
 Built by Zakariye Hashi
 

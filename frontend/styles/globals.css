@@ -144,3 +144,52 @@ li:hover {
   background-color: #09fd4eff; 
   border: 1px solid #e5e7eb; 
 }
+
+.table{
+/* optional: keeps table visible on scroll */
+  top: 16px;
+
+}
+.two-col {
+  display: grid;
+  grid-template-columns: 350px 1fr; 
+  gap: 24px;
+  align-items: start;
+}
+
+
+
+.center-content {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.tableList { list-style: none; padding: 0; margin: 0; }
+
+.gridRow {
+  display: grid;
+  grid-template-columns: 40px minmax(0,1fr) 56px 56px 60px; /* Pos | Team | P | GD | Pts */
+  gap: 12px;
+  align-items: center;
+}
+
+.tableHeader {
+  padding: 8px 12px;
+  font-weight: 600;
+  border-bottom: 1px solid #e5e7eb;
+  position: sticky; top: 0; background: #fff; /* optional: sticky header */
+}
+
+.tableRow { padding: 8px 12px; border-bottom: 1px solid #f1f5f9; }
+
+.team { display: flex; align-items: center; gap: 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.played, .gd, .points, .col-played, .col-gd, .col-pts {
+  text-align: right;
+  font-variant-numeric: tabular-nums; /* clean number alignment */
+}
+
+.points { font-weight: 700; }
