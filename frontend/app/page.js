@@ -32,11 +32,15 @@ export default function Home() {
   return (
     <div className = "two-col">
       <div className='table'>
+        {loading ? <p>Loading matches...</p> : (
+          <>
         <h2 style={{margin: '40px'}}>Table</h2>
         <MatchList matches={table} variant={"table"}></MatchList>
+      </>
+        )}
       </div>
       <div className = "centerContent">
-      {loading ? <p>Loading matches...</p> : (
+      {loading ? <p></p> : (
         <>
         <div style= {{marginBottom: '40px'}}>
           <h2 style={{ marginBottom: '20px' }}>Live Games</h2>
