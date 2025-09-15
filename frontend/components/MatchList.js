@@ -57,7 +57,7 @@ export default function MatchList({ matches, variant }) {
         if (variant === "table") {
           if (idx !== 0) return null;
           return (
-          <li className = "stand">
+          <li key="standings" className="stand">
             <div className="standings">
               {/* Header (once) */}
               <div className="tableHeader gridRow">
