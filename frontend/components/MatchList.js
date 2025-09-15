@@ -4,8 +4,8 @@ export default function MatchList({ matches, variant }) {
   const [openId, setOpenId] = useState(null);
   const [details, setDetails] = useState({}); 
   const [loadingId, setLoadingId] = useState(null);
-  //const base = process.env.NEXT_PUBLIC_API_BASE;
-  const base ="http://localhost:3001/"
+  const base = process.env.NEXT_PUBLIC_API_BASE;
+  //const base ="http://localhost:3001/"
 
 
 

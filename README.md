@@ -1,6 +1,6 @@
 Scope of the project:
 
-Premier-League-Hub is a web application that shows live premier league game scores, the upcoming set of results, as well as a detailed breakdown of the previous round of results. The web application uses the current date and time to automatically fetch the live game state and also the nearest previous and future fixtures.
+Premier-League-Hub is a web application that shows live premier league game scores, the upcoming set of results, a live league table as well as a detailed breakdown of the previous round of results. The web application uses the current date and time to automatically fetch the live game state and also the nearest previous and future fixtures.
 
 
 Tech stack:
@@ -12,9 +12,10 @@ Tech stack:
 
 Features:
 
-![Homepage screenshot](./Images/example.png)
+![Homepage screenshot](./Images/example2.png)
 
 - Live scores with automatic updates
+- Live Premier League Table
 - Upcoming fixtures fetched dynamically by date
 - Detailed breakdown of past matches, including:  
   - Match timeline of key events  
@@ -49,7 +50,7 @@ The backend and frontend are both publicly deployed using vercel. The website ca
 
 Ongoing development:
 
-Planned features include adding a league table, and email or phone notifications of users' favourite team's ongoing games.
+Planned features include adding Email or phone notifications of users' favourite team's ongoing games.
 
 
 Author:
