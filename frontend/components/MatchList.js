@@ -33,7 +33,7 @@ export default function MatchList({ matches, variant }) {
     })();
 
     return () => ctrl.abort();
-  }, [openId, details, base]);
+  }, [openId, details]);
 
   const v = (variant || '').toLowerCase();
   if ( !Array.isArray(matches) || matches.length === 0) {
@@ -57,7 +57,7 @@ export default function MatchList({ matches, variant }) {
         if (variant === "table") {
           if (idx !== 0) return null;
           return (
-            
+          <li className = "stand">
             <div className="standings">
               {/* Header (once) */}
               <div className="tableHeader gridRow">
@@ -88,6 +88,7 @@ export default function MatchList({ matches, variant }) {
                 })}
               </ul>
             </div>
+            </li>
           );
         }
         const id = match.id ?? `m-${idx}`;
